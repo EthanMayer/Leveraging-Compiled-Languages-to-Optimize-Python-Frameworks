@@ -1,21 +1,16 @@
-from PYTHON_testMain import main
-from TEST import main as main_c
+from TEST import main
 from statistics import median, mean, stdev
 import numpy as np
 import sys
 
-if (len(sys.argv) > 1):
-    runs = int(sys.argv[1])
-    math = int(sys.argv[2])
-    debug = int(sys.argv[3])
-    root = int(sys.argv[4])
-    tests = int(sys.argv[5])
-else:
-    runs = 100000
-    math = 0
-    debug = 0
-    root = 1
-    tests = 10
+PYTHON = 0
+CPP = 1
+
+runs = int(sys.argv[1]) if len(sys.argv) > 1 else 100000
+math = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+debug = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+root = int(sys.argv[4]) if len(sys.argv) > 4 else 1
+tests = int(sys.argv[5]) if len(sys.argv) > 5 else 10
 
 print("===================================")
 print("SPEED TESTS")
@@ -32,7 +27,7 @@ print("Running PURE PYTHON Tests...")
 times = []
 
 for i in range(tests):
-    times.append(main(runs, math, debug, root))
+    times.append(main(PYTHON, runs, math, debug, root))
 
 times = list(np.around(np.array(times), 3))
 
@@ -50,7 +45,7 @@ print("Running PYTHON + C++ Tests...")
 times = []
 
 for i in range(tests):
-    times.append(main_c(runs, math, debug, root))
+    times.append(main(CPP, runs, math, debug, root))
 
 times = list(np.around(np.array(times), 3))
 
