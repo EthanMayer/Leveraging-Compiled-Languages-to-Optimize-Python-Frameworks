@@ -26,6 +26,12 @@ def fib_recursive(n):
 
     return (fib_recursive(n - 1) + fib_recursive(n - 2))
 
+def memory_alloc():
+    lists = [None] * 100
+
+    for i in range(0,100):
+        lists[i] = [0]*4096
+
 def threadBody(context, addr, runs, test_type = 0, debug = 0, root = 0):
     from math import sqrt
 
@@ -52,6 +58,9 @@ def threadBody(context, addr, runs, test_type = 0, debug = 0, root = 0):
                 x = fib_recursive(int(i))
             send_str = "Recursive Fibonacci number of sqrt(" + str(i) + ")"
             send = json.dumps((send_str, x))
+        elif (test_type == 3):
+            memory_alloc()
+            send = json.dumps(("Memory Allocated", "4096 * 100"))
 
         control.send(bytes(send, encoding='utf8'))
 

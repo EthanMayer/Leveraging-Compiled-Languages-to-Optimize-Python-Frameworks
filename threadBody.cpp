@@ -41,6 +41,18 @@ int fib_recursive(int n) {
     return (fib_recursive(n - 2) + fib_recursive(n - 1));
 }
 
+void memory_alloc() {
+    int* ptrs[100];
+
+    for (int i = 0; i < 100; i++) {
+        ptrs[i] = (int*)malloc(4096);
+    }
+
+    for (int i = 0; i < 100; i++) {
+        free(ptrs[i]);
+    }
+}
+
 extern "C" void* thread1(arg_array arg) {
     pthread_t tid = pthread_self();
     if (arg.print) { std::cout << "Thread: Process ID: " << getpid() << " Thread ID: " << tid << std::endl; }
@@ -84,9 +96,14 @@ extern "C" void* thread1(arg_array arg) {
                 x = fib_recursive((int)i);
             }
             std::string send_fib_str = "Recursive Fibonacci number of sqrt(" + std::to_string(i) + ")";
-            nlohmann::json send_fib;
-            send_fib[send_fib_str] = x;
-            send = send_fib;
+            nlohmann::json send_recur_fib;
+            send_recur_fib[send_fib_str] = x;
+            send = send_recur_fib;
+        } else if (arg.test_type == 3) {
+            memory_alloc();
+            nlohmann::json send_mem;
+            send_mem["Memory Allocated"] = "4096 * 100";
+            send = send_mem;
         }
         
         send_str = send.dump();

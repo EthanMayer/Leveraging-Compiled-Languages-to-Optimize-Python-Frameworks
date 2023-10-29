@@ -8,10 +8,11 @@ CPP = 1
 
 runs = int(sys.argv[1]) if len(sys.argv) > 1 else 100000
 test_type = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-debug = int(sys.argv[3]) if len(sys.argv) > 3 else 0
-root = int(sys.argv[4]) if len(sys.argv) > 4 else 1
+root = int(sys.argv[3]) if len(sys.argv) > 3 else 1
+debug = int(sys.argv[4]) if len(sys.argv) > 4 else 0
 tests = int(sys.argv[5]) if len(sys.argv) > 5 else 10
 
+def run:
 print("===================================")
 print("SPEED TESTS")
 print("Parameters:")
@@ -23,8 +24,10 @@ elif (test_type == 1):
     print("Math Between Messages: " + str(bool(test_type)))
 elif (test_type == 2):
     print("Function Calls Between Messages: " + str(bool(test_type)))
+elif (test_type == 3):
+    print("Memory Allocation Between Messages: " + str(bool(test_type)))
 print("Debug Print: " + str(bool(debug)))
-print("Square Root Fib: " + str(bool(root)))
+if (test_type == 0): print("Square Root Fib: " + str(bool(root)))
 print("===================================")
 
 print("===================================")
