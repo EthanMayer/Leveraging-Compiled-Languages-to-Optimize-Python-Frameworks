@@ -15,7 +15,7 @@ Created on Sept. 21, 2023
 typedef struct {
     std::string addr;
     int runs;
-    int math;
+    int test_type;
     int print;
     int root;
 } arg_array;
@@ -26,7 +26,7 @@ void error(std::string msg) {
     exit(-1);
 }
 
-extern "C" int launch(int runs, int math = 0, int print = 0, int root = 0) {
+extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) {
     pthread_t t1;
     pthread_t t2;
     arg_array arg1, arg2;
@@ -35,7 +35,7 @@ extern "C" int launch(int runs, int math = 0, int print = 0, int root = 0) {
 
     if (print) { std::cout << "Main: Process ID: " << getpid() << std::endl; }
 
-    if (print) { std::cout << "Runs: " << runs << " Math: " << math << " Print: " << print << std::endl; }
+    if (print) { std::cout << "Runs: " << runs << " Work: " << test_type << " Print: " << print << std::endl; }
 
     char* libpath = "threadBody.so";
     void* libhandle = dlopen(libpath, RTLD_LAZY);
@@ -50,7 +50,7 @@ extern "C" int launch(int runs, int math = 0, int print = 0, int root = 0) {
 
     arg1.addr = "ipc://part_TEST1_control";
     arg1.runs = runs; //std::atoi(argv[1]);
-    arg1.math = math; //std::atoi(argv[2]);
+    arg1.test_type = test_type; //std::atoi(argv[2]);
     arg1.print = print; //std::atoi(argv[3]);
     arg1.root = root;
 
@@ -60,7 +60,7 @@ extern "C" int launch(int runs, int math = 0, int print = 0, int root = 0) {
 
     arg2.addr = "ipc://part_TEST2_control";
     arg2.runs = runs; //std::atoi(argv[1]);
-    arg2.math = math; //std::atoi(argv[2]);
+    arg2.test_type = test_type; //std::atoi(argv[2]);
     arg2.print = print; //std::atoi(argv[3]);
     arg2.root = root;
 

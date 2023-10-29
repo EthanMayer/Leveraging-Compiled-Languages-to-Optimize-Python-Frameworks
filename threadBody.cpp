@@ -14,7 +14,7 @@ Created on Sept. 21, 2023
 typedef struct {
     std::string addr;
     int runs;
-    int math;
+    int test_type;
     int print;
     int root;
 } arg_array;
@@ -32,6 +32,13 @@ int fib(int n) {
     }
 
     return curNum;
+}
+
+int fib_recursive(int n) {
+    if (n == 0) { return 0; }
+    if (n == 1) { return 1; }
+
+    return (fib_recursive(n - 2) + fib_recursive(n - 1));
 }
 
 extern "C" void* thread1(arg_array arg) {
@@ -55,7 +62,12 @@ extern "C" void* thread1(arg_array arg) {
     int x = 0;
 
     while (i < arg.runs) {
-        if (arg.math) {
+
+        if (arg.test_type == 0) {
+            nlohmann::json send_no_fib;
+            send_no_fib["Contents"] = "Ready";
+            send = send_no_fib;
+        } else if (arg.test_type == 1) {
             if (arg.root) {
                 x = fib((int)std::sqrt(i));
             } else {
@@ -65,11 +77,16 @@ extern "C" void* thread1(arg_array arg) {
             nlohmann::json send_fib;
             send_fib[send_fib_str] = x;
             send = send_fib;
-        }
-        else {
-            nlohmann::json send_no_fib;
-            send_no_fib["Contents"] = "Ready";
-            send = send_no_fib;
+        } else if (arg.test_type == 2) {
+            if (arg.root) {
+                x = fib_recursive((int)std::sqrt(i));
+            } else {
+                x = fib_recursive((int)i);
+            }
+            std::string send_fib_str = "Recursive Fibonacci number of sqrt(" + std::to_string(i) + ")";
+            nlohmann::json send_fib;
+            send_fib[send_fib_str] = x;
+            send = send_fib;
         }
         
         send_str = send.dump();

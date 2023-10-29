@@ -7,7 +7,7 @@ PYTHON = 0
 CPP = 1
 
 runs = int(sys.argv[1]) if len(sys.argv) > 1 else 100000
-math = int(sys.argv[2]) if len(sys.argv) > 2 else 0
+test_type = int(sys.argv[2]) if len(sys.argv) > 2 else 0
 debug = int(sys.argv[3]) if len(sys.argv) > 3 else 0
 root = int(sys.argv[4]) if len(sys.argv) > 4 else 1
 tests = int(sys.argv[5]) if len(sys.argv) > 5 else 10
@@ -17,7 +17,12 @@ print("SPEED TESTS")
 print("Parameters:")
 print("Tests Per Category: " + str(tests))
 print("Messages Per Test: " + str(runs))
-print("Work Between Messages: " + str(bool(math)))
+if (test_type == 0):
+    print("Work Between Messages: " + str(bool(test_type)))
+elif (test_type == 1):
+    print("Math Between Messages: " + str(bool(test_type)))
+elif (test_type == 2):
+    print("Function Calls Between Messages: " + str(bool(test_type)))
 print("Debug Print: " + str(bool(debug)))
 print("Square Root Fib: " + str(bool(root)))
 print("===================================")
@@ -27,7 +32,7 @@ print("Running PURE PYTHON Tests...")
 times = []
 
 for i in range(tests):
-    times.append(main(PYTHON, runs, math, debug, root))
+    times.append(main(PYTHON, runs, test_type, debug, root))
 
 times = list(np.around(np.array(times), 3))
 
@@ -45,7 +50,7 @@ print("Running PYTHON + C++ Tests...")
 times = []
 
 for i in range(tests):
-    times.append(main(CPP, runs, math, debug, root))
+    times.append(main(CPP, runs, test_type, debug, root))
 
 times = list(np.around(np.array(times), 3))
 

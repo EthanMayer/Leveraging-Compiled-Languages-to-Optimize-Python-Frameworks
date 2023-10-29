@@ -20,7 +20,13 @@ def fib(n):
 
     return curNum
 
-def threadBody(context, addr, runs, math = 0, debug = 0, root = 0):
+def fib_recursive(n):
+    if (n == 0): return 0
+    if (n == 1): return 1
+
+    return (fib_recursive(n - 1) + fib_recursive(n - 2))
+
+def threadBody(context, addr, runs, test_type = 0, debug = 0, root = 0):
     from math import sqrt
 
     control = context.socket(zmq.PAIR)
@@ -30,15 +36,23 @@ def threadBody(context, addr, runs, math = 0, debug = 0, root = 0):
     while (i < runs):
         if debug: print("Python_Thread: ready to send")
 
-        if math: 
+        if (test_type == 0): 
+            send = json.dumps(("Contents", "Ready"))
+        elif (test_type == 1):
             if root:
                 x = fib(int(sqrt(i)))
             else:
                 x = fib(int(i))
             send_str = "Fibonacci number of sqrt(" + str(i) + ")"
             send = json.dumps((send_str, x))
-        else:
-            send = json.dumps(("Contents", "Ready"))
+        elif (test_type == 2):
+            if root:
+                x = fib_recursive(int(sqrt(i)))
+            else:
+                x = fib_recursive(int(i))
+            send_str = "Recursive Fibonacci number of sqrt(" + str(i) + ")"
+            send = json.dumps((send_str, x))
+
         control.send(bytes(send, encoding='utf8'))
 
         if debug: print("Python_Thread: ready to receive")
@@ -48,7 +62,7 @@ def threadBody(context, addr, runs, math = 0, debug = 0, root = 0):
         # i = message.y
         i = i + 1
 
-def main(type, runs, math = 0, debug = 0, root = 0):
+def main(type, runs, test_type = 0, debug = 0, root = 0):
     start_time = timeit.default_timer()
 
     context1 = zmq.Context()
@@ -74,13 +88,13 @@ def main(type, runs, math = 0, debug = 0, root = 0):
 
         if debug: print("Python: launching c++ .so")
         libc = CDLL("launch.so")
-        t = threading.Thread(target=libc.launch, args=(runs, math, debug, root, ))
+        t = threading.Thread(target=libc.launch, args=(runs, test_type, debug, root, ))
         t.start()
     else:
-        t = threading.Thread(target=threadBody, args=(context1, 'inproc://PYTHON_TEST1_control', runs, math, debug, root, ))
+        t = threading.Thread(target=threadBody, args=(context1, 'inproc://PYTHON_TEST1_control', runs, test_type, debug, root, ))
         t.start()
 
-        t2 = threading.Thread(target=threadBody, args=(context2, 'inproc://PYTHON_TEST2_control', runs, math, debug, root, ))
+        t2 = threading.Thread(target=threadBody, args=(context2, 'inproc://PYTHON_TEST2_control', runs, test_type, debug, root, ))
         t2.start()
 
     i1 = 0
