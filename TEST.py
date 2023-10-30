@@ -73,7 +73,7 @@ def threadBody(context, addr, runs, test_type = 0, debug = 0, root = 0):
         i = i + 1
 
 def main(type, runs, test_type = 0, debug = 0, root = 0):
-    os.sched_setaffinity(0, 1)
+    # os.sched_setaffinity(0, 1)
     start_time = timeit.default_timer()
 
     context1 = zmq.Context()
@@ -105,12 +105,12 @@ def main(type, runs, test_type = 0, debug = 0, root = 0):
         t = threading.Thread(target=threadBody, args=(context1, 'inproc://PYTHON_TEST1_control', runs, test_type, debug, root, ))
         t.start()
 
-        os.sched_setaffinity(t.native_id, 2)
+        # os.sched_setaffinity(t.native_id, 2)
 
         t2 = threading.Thread(target=threadBody, args=(context2, 'inproc://PYTHON_TEST2_control', runs, test_type, debug, root, ))
         t2.start()
 
-        os.sched_setaffinity(t2.native_id, 3)
+        # os.sched_setaffinity(t2.native_id, 3)
 
     i1 = 0
     i2 = 0
