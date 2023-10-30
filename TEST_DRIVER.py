@@ -60,6 +60,8 @@ def run():
     mean1 = round(mean(times1), 3)
     std1 = round(stdev(times1), 3)
 
+    times.append([mean1]*10)
+
     print("Median time (Python): " + str(median1))
     print("Mean time (Python): " + str(mean1))
     print("Standard Deviation (Python): " + str(std1))
@@ -78,6 +80,8 @@ def run():
     median2 = round(median(times2), 3)
     mean2 = round(mean(times2), 3)
     std2 = round(stdev(times2), 3)
+
+    times.append([mean2]*10)
 
     print("Median time (Python + C++): " + str(median2))
     print("Mean time (Python + C++): " + str(mean2))
@@ -99,7 +103,7 @@ open(file_name, 'w+', newline='')
 with open(file_name, 'a+', newline='') as write_obj:
 
     # Write column titles to csv
-    csvTitles = ["Python - 100k", "C++ - 100k", "Python - 500k", "C++ - 500k", "Python - 100k, Sqrt Fib", "C++ - 100k, Sqrt Fib", "Python - 500k, Sqrt Fib", "C++ - 500k, Sqrt Fib", "Python - 1k, Fib", "C++ - 1k, Fib", "Python - 5k, Fib", "C++ - 5k, Fib", "Python - 1k, Functions", "C++ - 1k, Functions", "Python - 5k, Functions", "C++ - 5k, Functions", "Python - 100k, Memory", "C++ - 100k, Memory", "Python - 500k, Memory", "C++ - 500k, Memory"]
+    csvTitles = ["Python - 100k", "Average", "C++ - 100k", "Average", "Python - 500k", "Average", "C++ - 500k", "Average", "Python - 100k, Sqrt Fib", "Average", "C++ - 100k, Sqrt Fib", "Average", "Python - 500k, Sqrt Fib", "Average", "C++ - 500k, Sqrt Fib", "Average", "Python - 1k, Fib", "Average", "C++ - 1k, Fib", "Average", "Python - 5k, Fib", "Average", "C++ - 5k, Fib", "Average", "Python - 1k, Functions", "Average", "C++ - 1k, Functions", "Average", "Python - 5k, Functions", "Average", "C++ - 5k, Functions", "Average", "Python - 100k, Memory", "Average", "C++ - 100k, Memory", "Average", "Python - 500k, Memory", "Average", "C++ - 500k, Memory", "Average"]
     append_list_as_row(write_obj, csvTitles)
         
     debug = 0
