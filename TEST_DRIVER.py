@@ -2,6 +2,7 @@ from TEST import main
 from statistics import median, mean, stdev
 import numpy as np
 import sys
+import os
 
 PYTHON = 0
 CPP = 1
@@ -12,59 +13,107 @@ root = int(sys.argv[3]) if len(sys.argv) > 3 else 1
 debug = int(sys.argv[4]) if len(sys.argv) > 4 else 0
 tests = int(sys.argv[5]) if len(sys.argv) > 5 else 10
 
-def run:
-print("===================================")
-print("SPEED TESTS")
-print("Parameters:")
-print("Tests Per Category: " + str(tests))
-print("Messages Per Test: " + str(runs))
-if (test_type == 0):
-    print("Work Between Messages: " + str(bool(test_type)))
-elif (test_type == 1):
-    print("Math Between Messages: " + str(bool(test_type)))
-elif (test_type == 2):
-    print("Function Calls Between Messages: " + str(bool(test_type)))
-elif (test_type == 3):
-    print("Memory Allocation Between Messages: " + str(bool(test_type)))
-print("Debug Print: " + str(bool(debug)))
-if (test_type == 0): print("Square Root Fib: " + str(bool(root)))
-print("===================================")
+def run():
+    print("===================================")
+    print("SPEED TESTS")
+    print("Parameters:")
+    print("Tests Per Category: " + str(tests))
+    print("Messages Per Test: " + str(runs))
+    if (test_type == 0):
+        print("Work Between Messages: " + str(bool(test_type)))
+    elif (test_type == 1):
+        print("Math Between Messages: " + str(bool(test_type)))
+    elif (test_type == 2):
+        print("Function Calls Between Messages: " + str(bool(test_type)))
+    elif (test_type == 3):
+        print("Memory Allocation Between Messages: " + str(bool(test_type)))
+    print("Debug Print: " + str(bool(debug)))
+    if (test_type == 1): print("Square Root Fib: " + str(bool(root)))
+    print("===================================")
 
-print("===================================")
-print("Running PURE PYTHON Tests...")
-times = []
+    print("===================================")
+    print("Running PURE PYTHON Tests...")
+    times = []
 
-for i in range(tests):
-    times.append(main(PYTHON, runs, test_type, debug, root))
+    for i in range(tests):
+        times.append(main(PYTHON, runs, test_type, debug, root))
 
-times = list(np.around(np.array(times), 3))
+    times = list(np.around(np.array(times), 3))
 
-median1 = round(median(times), 3)
-mean1 = round(mean(times), 3)
-std1 = round(stdev(times), 3)
+    median1 = round(median(times), 3)
+    mean1 = round(mean(times), 3)
+    std1 = round(stdev(times), 3)
 
-print("Median time (Python): " + str(median1))
-print("Mean time (Python): " + str(mean1))
-print("Standard Deviation (Python): " + str(std1))
-print("All times (Python): " + str(times))
+    print("Median time (Python): " + str(median1))
+    print("Mean time (Python): " + str(mean1))
+    print("Standard Deviation (Python): " + str(std1))
+    print("All times (Python): " + str(times))
 
-print("===================================")
-print("Running PYTHON + C++ Tests...")
-times = []
+    print("===================================")
+    print("Running PYTHON + C++ Tests...")
+    times = []
 
-for i in range(tests):
-    times.append(main(CPP, runs, test_type, debug, root))
+    for i in range(tests):
+        times.append(main(CPP, runs, test_type, debug, root))
 
-times = list(np.around(np.array(times), 3))
+    times = list(np.around(np.array(times), 3))
 
-median2 = round(median(times), 3)
-mean2 = round(mean(times), 3)
-std2 = round(stdev(times), 3)
+    median2 = round(median(times), 3)
+    mean2 = round(mean(times), 3)
+    std2 = round(stdev(times), 3)
 
-print("Median time (Python + C++): " + str(median2))
-print("Mean time (Python + C++): " + str(mean2))
-print("Standard Deviation (Python + C++): " + str(std2))
-print("All times (Python + C++): " + str(times))
+    print("Median time (Python + C++): " + str(median2))
+    print("Mean time (Python + C++): " + str(mean2))
+    print("Standard Deviation (Python + C++): " + str(std2))
+    print("All times (Python + C++): " + str(times))
 
-speedup = round(((mean2 - mean1) / mean1 * 100), 3)
-print("Average runtime difference: " + str(speedup) + "%")
+    speedup = round(((mean2 - mean1) / mean1 * 100), 3)
+    print("Average runtime difference: " + str(speedup) + "%")
+
+os.sched_setaffinity(0, 0)
+
+debug = 0
+tests = 10
+root = 1
+
+runs = 100000
+test_type = 0
+run()
+
+runs = 500000
+test_type = 0
+run()
+
+runs = 100000
+test_type = 1
+run()
+
+runs = 500000
+test_type = 1
+run()
+
+root = 0
+
+runs = 1000
+test_type = 1
+run()
+
+runs = 5000
+test_type = 1
+run()
+
+runs = 1000
+test_type = 2
+run()
+
+runs = 5000
+test_type = 2
+run()
+
+runs = 100000
+test_type = 3
+run()
+
+runs = 500000
+test_type = 3
+run()

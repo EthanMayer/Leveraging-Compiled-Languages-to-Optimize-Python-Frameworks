@@ -5,12 +5,26 @@ Created on Sept. 21, 2023
 @author: EthanMayer
 */
 
+#include <mach/thread_act.h>
 #include <pthread.h>
 #include <iostream>
 #include <string>
 #include <unistd.h>
 #include <dlfcn.h>
 #include <charconv>
+
+kern_return_t	thread_policy_set(
+					thread_t			thread,
+					thread_policy_flavor_t		flavor,
+					thread_policy_t			policy_info,
+					mach_msg_type_number_t		count);
+
+// kern_return_t	thread_policy_get(
+// 					thread_t			thread,
+// 					thread_policy_flavor_t		flavor,
+// 					thread_policy_t			policy_info,
+// 					mach_msg_type_number_t		*count,
+// 					boolean_t			*get_default);
 
 typedef struct {
     std::string addr;
@@ -30,6 +44,10 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
     pthread_t t1;
     pthread_t t2;
     arg_array arg1, arg2;
+
+    mach_port_t mach_thread_main = pthread_mach_thread_np(pthread_self());
+    thread_affinity_policy_data_t policyData_main = { 1 };
+    thread_policy_set(mach_thread_main, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData_main, 1);
 
     // int print = std::atoi(argv[3]);
 
@@ -58,6 +76,10 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
         error("Main: Could not create thread in launch.cpp");
     }
 
+    mach_port_t mach_thread1 = pthread_mach_thread_np(t1);
+    thread_affinity_policy_data_t policyData1 = { 2 };
+    thread_policy_set(mach_thread1, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData1, 1);
+
     arg2.addr = "ipc://part_TEST2_control";
     arg2.runs = runs; //std::atoi(argv[1]);
     arg2.test_type = test_type; //std::atoi(argv[2]);
@@ -67,6 +89,10 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
     if (pthread_create(&t2, NULL, (void * _Nullable (* _Nonnull)(void * _Nullable))thread1, &arg2) == -1) {
         error("Main: Could not create thread in launch.cpp");
     }
+
+    mach_port_t mach_thread2 = pthread_mach_thread_np(pthread_self());
+    thread_affinity_policy_data_t policyData2 = { 3 };
+    thread_policy_set(mach_thread2, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData2, 1);
 
     if (print) { std::cout << "Joining Threads" << std::endl; }
 
