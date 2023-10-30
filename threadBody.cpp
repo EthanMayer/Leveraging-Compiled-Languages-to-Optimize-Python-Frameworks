@@ -110,9 +110,9 @@ extern "C" void* thread1(arg_array arg) {
         if (arg.print) { std::cout << "Thread: sending: " << send_str << std::endl; }
         zmq::message_t query(send_str.length());
         std::memcpy(query.data(), (send_str.c_str()), (send_str.size()));
-        sock.send(query);
+        sock.send(query, zmq::send_flags::none);
 
-        sock.recv(&reply);
+        zmq::recv_result_t e = sock.recv(reply, zmq::recv_flags::none);
         reply_json = nlohmann::json::parse(reply.to_string());
         if (arg.print) { std::cout << "Thread: reply received: \n" << reply_json.dump(4) << std::endl; }
         if (arg.print) { std::cout << "Value of Point: " << reply_json["__value__"]["values"][1] << std::endl; }

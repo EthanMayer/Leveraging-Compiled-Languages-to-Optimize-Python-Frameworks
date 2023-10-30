@@ -33,10 +33,8 @@ def memory_alloc():
     for i in range(0,100):
         lists[i] = [0]*4096
 
-def threadBody(thread_num, context, addr, runs, test_type = 0, debug = 0, root = 0):
+def threadBody(context, addr, runs, test_type = 0, debug = 0, root = 0):
     from math import sqrt
-
-    os.sched_setaffinity(0, thread_num+1)
 
     control = context.socket(zmq.PAIR)
     control.connect(addr)
@@ -104,11 +102,15 @@ def main(type, runs, test_type = 0, debug = 0, root = 0):
         t = threading.Thread(target=libc.launch, args=(runs, test_type, debug, root, ))
         t.start()
     else:
-        t = threading.Thread(target=threadBody, args=(1, context1, 'inproc://PYTHON_TEST1_control', runs, test_type, debug, root, ))
+        t = threading.Thread(target=threadBody, args=(context1, 'inproc://PYTHON_TEST1_control', runs, test_type, debug, root, ))
         t.start()
 
-        t2 = threading.Thread(target=threadBody, args=(2, context2, 'inproc://PYTHON_TEST2_control', runs, test_type, debug, root, ))
+        os.sched_setaffinity(t.native_id, 2)
+
+        t2 = threading.Thread(target=threadBody, args=(context2, 'inproc://PYTHON_TEST2_control', runs, test_type, debug, root, ))
         t2.start()
+
+        os.sched_setaffinity(t2.native_id, 3)
 
     i1 = 0
     i2 = 0

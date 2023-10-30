@@ -46,7 +46,7 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
     arg_array arg1, arg2;
 
     mach_port_t mach_thread_main = pthread_mach_thread_np(pthread_self());
-    thread_affinity_policy_data_t policyData_main = { 1 };
+    thread_affinity_policy_data_t policyData_main = { 2 };
     thread_policy_set(mach_thread_main, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData_main, 1);
 
     // int print = std::atoi(argv[3]);
@@ -55,7 +55,7 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
 
     if (print) { std::cout << "Runs: " << runs << " Work: " << test_type << " Print: " << print << std::endl; }
 
-    char* libpath = "threadBody.so";
+    const char* libpath = "threadBody.so";
     void* libhandle = dlopen(libpath, RTLD_LAZY);
 
     if (libhandle == NULL) {
@@ -77,7 +77,7 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
     }
 
     mach_port_t mach_thread1 = pthread_mach_thread_np(t1);
-    thread_affinity_policy_data_t policyData1 = { 2 };
+    thread_affinity_policy_data_t policyData1 = { 3 };
     thread_policy_set(mach_thread1, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData1, 1);
 
     arg2.addr = "ipc://part_TEST2_control";
@@ -91,7 +91,7 @@ extern "C" int launch(int runs, int test_type = 0, int print = 0, int root = 0) 
     }
 
     mach_port_t mach_thread2 = pthread_mach_thread_np(pthread_self());
-    thread_affinity_policy_data_t policyData2 = { 3 };
+    thread_affinity_policy_data_t policyData2 = { 4 };
     thread_policy_set(mach_thread2, THREAD_AFFINITY_POLICY, (thread_policy_t)&policyData2, 1);
 
     if (print) { std::cout << "Joining Threads" << std::endl; }
