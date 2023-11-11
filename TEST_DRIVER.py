@@ -43,7 +43,7 @@ def run():
     elif (test_type == 3):
         print("Memory Allocation Between Messages: " + str(bool(test_type)))
     print("Debug Print: " + str(bool(debug)))
-    if (test_type == 1): print("Square Root Fib: " + str(bool(root)))
+    if (test_type == 1 or test_type == 2): print("Square Root Fib: " + str(bool(root)))
     print("===================================")
 
     print("===================================")
@@ -101,61 +101,85 @@ file_name = "data/LOG_" + timestr + ".csv"
 open(file_name, 'w+', newline='')
 
 with open(file_name, 'a+', newline='') as write_obj:
+    try:
+        # Write column titles to csv
+        csvTitles = ["Python - 100k", "Average", "C++ - 100k", "Average", "Python - 500k", "Average", "C++ - 500k", "Average", "Python - 100k, Sqrt Fib", "Average", "C++ - 100k, Sqrt Fib", "Average", "Python - 500k, Sqrt Fib", "Average", "C++ - 500k, Sqrt Fib", "Average", "Python - 1k, Fib", "Average", "C++ - 1k, Fib", "Average", "Python - 5k, Fib", "Average", "C++ - 5k, Fib", "Average", "Python - 10, Functions", "Average", "C++ - 10, Functions", "Average", "Python - 40, Functions", "Average", "C++ - 40, Functions", "Average", "Python - 100k, Memory", "Average", "C++ - 100k, Memory", "Average", "Python - 500k, Memory", "Average", "C++ - 500k, Memory", "Average"]
+        append_list_as_row(write_obj, csvTitles)
+            
+        debug = 0
+        tests = 10
+        root = 1
 
-    # Write column titles to csv
-    csvTitles = ["Python - 100k", "Average", "C++ - 100k", "Average", "Python - 500k", "Average", "C++ - 500k", "Average", "Python - 100k, Sqrt Fib", "Average", "C++ - 100k, Sqrt Fib", "Average", "Python - 500k, Sqrt Fib", "Average", "C++ - 500k, Sqrt Fib", "Average", "Python - 1k, Fib", "Average", "C++ - 1k, Fib", "Average", "Python - 5k, Fib", "Average", "C++ - 5k, Fib", "Average", "Python - 1k, Functions", "Average", "C++ - 1k, Functions", "Average", "Python - 5k, Functions", "Average", "C++ - 5k, Functions", "Average", "Python - 100k, Memory", "Average", "C++ - 100k, Memory", "Average", "Python - 500k, Memory", "Average", "C++ - 500k, Memory", "Average"]
-    append_list_as_row(write_obj, csvTitles)
-        
-    debug = 0
-    tests = 10
-    root = 1
+        runs = 100000
+        test_type = 0
+        run()
 
-    runs = 100000
-    test_type = 0
-    run()
+        runs = 500000
+        test_type = 0
+        run()
 
-    runs = 500000
-    test_type = 0
-    run()
+        runs = 100000
+        test_type = 1
+        # run()
 
-    runs = 100000
-    test_type = 1
-    run()
+        runs = 500000
+        test_type = 1
+        # run()
 
-    runs = 500000
-    test_type = 1
-    run()
+        root = 0
 
-    root = 0
+        runs = 1000
+        test_type = 1
+        # run()
 
-    runs = 1000
-    test_type = 1
-    run()
+        runs = 5000
+        test_type = 1
+        # run()
 
-    runs = 5000
-    test_type = 1
-    run()
+        runs = 10
+        test_type = 2
+        # run()
 
-    runs = 1000
-    test_type = 2
-    run()
+        runs = 40
+        test_type = 2
+        # run()
 
-    runs = 5000
-    test_type = 2
-    run()
+        runs = 100000
+        test_type = 3
+        # run()
 
-    runs = 100000
-    test_type = 3
-    run()
+        runs = 500000
+        test_type = 3
+        # run()
 
-    runs = 500000
-    test_type = 3
-    run()
+        for i in range(0,10):
+            cur_times = []
 
-    for i in range(0,10):
-        cur_times = []
+            for list in times:
+                cur_times.append(list[i])
 
-        for list in times:
-            cur_times.append(list[i])
+            append_list_as_row(write_obj, cur_times)
 
-        append_list_as_row(write_obj, cur_times)
+    # Stop logging on keyboard interrupt and gracefully exit
+    except KeyboardInterrupt:
+        if debug: print("\nStopping logging due to keyboard interrupt") #ctrl-c
+
+        for i in range(0,10):
+            cur_times = []
+
+            for list in times:
+                cur_times.append(list[i])
+
+            append_list_as_row(write_obj, cur_times)
+
+    # Print exception that occurred
+    except Exception as e:
+        print("\nTEST EXCEPTION:\n" + str(e))
+
+        for i in range(0,10):
+            cur_times = []
+
+            for list in times:
+                cur_times.append(list[i])
+
+            append_list_as_row(write_obj, cur_times)
