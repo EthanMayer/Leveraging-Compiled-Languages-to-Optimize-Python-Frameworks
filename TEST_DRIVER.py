@@ -1,5 +1,5 @@
-# Test Driver
-# Created on October 16, 2023
+# TEST_DRIVER.py
+# Driver for setting up and running tests with TEST.py
 #
 # @author: EthanMayer
 #
