@@ -1,0 +1,4 @@
+cppzmq
+nlohmann-json
+python@3.11
+zeromq
