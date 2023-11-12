@@ -1,6 +1,9 @@
 /*
+Leveraging Compiled Languages to Optimize Python Frameworks
+Master's Thesis Research
+
 C++ Thread Body File
-Contains the thread body functions for C++ pthreads
+This file contains the thread body functions for C++ pthreads.
 
 @author: EthanMayer
 */

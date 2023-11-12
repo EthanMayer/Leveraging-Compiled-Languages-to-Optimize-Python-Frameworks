@@ -1,6 +1,9 @@
 /*
+Leveraging Compiled Languages to Optimize Python Frameworks
+Master's Thesis Research
+
 C++ Thread Launch File
-Function to load thread body functions from .so file and launch them as pthreads
+This file contains a function to load thread body functions from a .so file and launch them as pthreads.
 
 @author: EthanMayer
 */

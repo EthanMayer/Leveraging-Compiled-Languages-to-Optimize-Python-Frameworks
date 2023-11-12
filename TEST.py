@@ -1,5 +1,8 @@
-# TEST.PY
-# Performs the tests for either Python or Python + C++
+# Leveraging Compiled Languages to Optimize Python Frameworks
+# Master's Thesis Research
+#
+# Test File
+# This file performs the research tests for either the Python Control Implementation or the Python + C++ Prototype.
 #
 # @author: EthanMayer
 #
