@@ -12,7 +12,7 @@ This repository contains the implementation code used for my Master's Thesis, "L
 * [Background](#background)
 * [Setup](#setup)
 * [Usage](#usage)
-* [License] (#license)
+* [License](#license)
 ## Authors
 
 - [@EthanMayer](https://github.com/EthanMayer)
