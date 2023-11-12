@@ -31,11 +31,11 @@ To learn more about RIAPS, visit:
 
 ## Setup
 
-This project was originally run with Python3.11 on MacOS. In order to install Python 3.11 using Homebrew, and other external libraries used for the C++ portion of this project, run:
+This project was originally run with Python3.11 on MacOS. In order to install Python 3.11 using Homebrew, and other external libraries used for the C++ portion of this project, installed them using Homebrew with `brew_requirements.txt`. Run:
 
 `xargs brew install < brew_requirements.txt`
 
-This project relies on several external Python libraries listed in `requirements.txt`. To install them, run:
+This project relies on several external Python libraries listed in `pip_requirements.txt`. To install them, run:
 
 `pip install -r pip_requirements.txt`
 
@@ -43,7 +43,7 @@ The included `build.sh` Bash script is used to automate the building and compili
 
 `bash build.sh`
 
-If this completes successfully, the project is ready to be run (see [Usage](#usage)). If there are errors, see below.
+If this completes successfully, the project is ready to be run (see [Usage](#usage)).
 
 **Additional Information**
 
@@ -60,11 +60,11 @@ The driver is meant to setup and run a test suite for this thesis. Although at o
 
 Within `TEST_DRIVER.py`, many different test parameters can be set. This includes:
 
-`runs`: number of runs per test (int)
-`test_type`: which test to run (specifically, which work to do between messages) (int)
-`root`: whether to take the square root of the number being used in mathematical operations between messages (Bool)
-`debug`: enable debug printing (otherwise known as verbose mode) (Bool)
-`tests`: how many times to run each test per language (int)
+- `runs`: number of runs per test (int)
+- `test_type`: which test to run (specifically, which work to do between messages) (int)
+- `root`: whether to take the square root of the number being used in mathematical operations between messages (Bool)
+- `debug`: enable debug printing (otherwise known as verbose mode) (Bool)
+- `tests`: how many times to run each test per language (int)
 
 When finished, a CSV file containing all test data will be deposited in the `data/` folder. The test data will be under the relevant column titles specified in the driver script.
 
