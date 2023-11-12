@@ -1,8 +1,4 @@
 # Leveraging-Compiled-Languages-to-Optimize-Python-Frameworks
-This repository is for the research and implementation for my thesis "Leveraging Compiled Languages to Optimize Python Frameworks". This is a continuation and compartmentalization of work done in my riaps-pycom fork.
-
-
-# Leveraging-Compiled-Languages-to-Optimize-Python-Frameworks
 This repository contains the implementation code used for my Master's Thesis, "Leveraging Compiled Languages to Optimize Python Frameworks". This work is a culmination of work done in several previous repositories, including [MS-Research](https://github.com/EthanMayer/MS-Research) and my two fork branches, `cython` and `cpp_comop`, of [riaps-pycom](https://github.com/EthanMayer/riaps-pycom).
 
 
@@ -66,7 +62,7 @@ Within `TEST_DRIVER.py`, many different test parameters can be set. This include
 - `debug`: enable debug printing (otherwise known as verbose mode) (Bool)
 - `tests`: how many times to run each test per language (int)
 
-When finished, a CSV file containing all test data will be deposited in the `data/` folder. The test data will be under the relevant column titles specified in the driver script.
+When finished, a CSV file containing all test data will be deposited in the `data/` folder, which will be created upon running the test for the first time. The test data will be under the relevant column titles specified in the driver script.
 
 ## License
 
